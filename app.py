@@ -12,7 +12,7 @@ fs1 = s3fs.S3FileSystem(
    )
 con=duckdb.connect()
 xxx = ds.dataset(base, filesystem=fs1,format="parquet",partitioning="hive")
-st.write(lineitem.schema)
+st.write(xxx.schema)
 con.register('lineitem',xxx)
 
 SQL = st.text_input('Write a SQL Query', 'select  *  from lineitem where year = 2000 limit 1')

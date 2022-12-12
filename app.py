@@ -1,9 +1,16 @@
 import streamlit as st
 import duckdb
-con=duckdb.connect()
+st.set_page_config(
+    page_title="Example of using DuckDB with Cloudflare R2",
+    page_icon="✅",
+    layout="wide",
+                  )
+col1, col2 = st.columns([3, 1])
+################################
 #make sure you don't include http into the endpoint
 @st.experimental_singleton
 def define_view():
+    con=duckdb.connect()
     con.execute(f'''
     install httpfs;
     LOAD httpfs;
@@ -16,9 +23,26 @@ def define_view():
     ''')
     return con
 con=define_view()
+###############################
 SQL = st.text_input('Write a SQL Query, Streamlit Cache the results of existing Queries', 'select * from lineitem limit 5')
 @st.experimental_memo
 def get_data(SQL):
   return con.execute(SQL).df()
-df = get_data(SQL)  
-st.write(df)
+try :
+  df = get_data(SQL)  
+  st.write(df)
+except Exception as er:
+ st.write(er)
+
+################################################################################
+def convert_df(df):
+            # IMPORTANT: Cache the conversion to prevent computation on every rerun
+            return df.to_csv().encode('utf-8')
+
+csv = convert_df(df)
+col2.download_button(
+            label="Download data as CSV",
+            data=csv,
+            file_name='large_df.csv',
+            mime='text/csv',
+        )

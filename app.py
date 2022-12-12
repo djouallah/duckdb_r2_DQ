@@ -25,7 +25,7 @@ def define_view():
 con=define_view()
 ###############################
 SQL = st.text_input('Write a SQL Query, Streamlit Cache the results of existing Queries', 'select * from lineitem limit 5')
-@st.experimental_memo
+@st.experimental_memo (persist="disk")
 def get_data(SQL):
   return con.execute(SQL).df()
 try :

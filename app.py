@@ -34,7 +34,7 @@ try :
   df = get_data(SQL) 
   end = timer()
   st.write("Duration in Second")
-  st.write(round(end - start),2)
+  st.write(round(end - start,2))
   st.write(df)
 except Exception as er:
  st.write(er)

@@ -1,7 +1,7 @@
 import streamlit as st
 import duckdb
 con=duckdb.connect()
-
+#make sure you don't include http into the endpoint
 con.execute(f'''
 install httpfs;
 LOAD httpfs;

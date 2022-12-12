@@ -1,5 +1,6 @@
 import streamlit as st
 import duckdb
+from timeit import default_timer as timer
 st.set_page_config(
     page_title="Example of using DuckDB with Cloudflare R2",
     page_icon="✅",
@@ -29,7 +30,10 @@ SQL = st.text_input('Write a SQL Query, Streamlit Cache the results of existing 
 def get_data(SQL):
   return con.execute(SQL).df()
 try :
-  df = get_data(SQL)  
+  start = timer()
+  df = get_data(SQL) 
+  end = timer()
+  st.write(end - start)
   st.write(df)
 except Exception as er:
  st.write(er)

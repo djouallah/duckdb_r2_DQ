@@ -22,7 +22,7 @@ def define_view():
     set s3_secret_access_key = '{st.secrets["aws_secret_access_key_secret"] }';
     set s3_endpoint = '{st.secrets["endpoint_url_secret"]}'  ;
     SET s3_url_style='path';
-    create  view if not exists lineitem as select  *  from parquet_scan('s3://delta/10/lineitem.parquet')
+    create  or replace view lineitem as select  *  from parquet_scan('s3://delta/10/lineitem.parquet')
     ''')
     return con
 con=define_view()

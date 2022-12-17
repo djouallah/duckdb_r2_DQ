@@ -23,8 +23,7 @@ def define_view():
     set s3_endpoint = '{st.secrets["endpoint_url_secret"]}'  ;
     SET s3_url_style='path';
     create or replace view scada as select  *  from parquet_scan('s3://delta/aemo/scada/data/*/*.parquet' , HIVE_PARTITIONING = 1,filename= 1) ;
-    create  or replace view lineitem as select  *  from parquet_scan('s3://delta/10/lineitem.parquet') ;
-    create  or replace view lineitem_sorted as select  *  from parquet_scan('s3://delta/sorted/lineitem.parquet')
+    create  or replace view lineitem as select  *  from parquet_scan('s3://delta/sorted/lineitem.parquet')
     ''')
     return con
 con=define_view()

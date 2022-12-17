@@ -15,7 +15,7 @@ def define_view():
     con.execute(f'''
     install httpfs;
     LOAD httpfs;
-    --SET enable_http_metadata_cache=true ;
+    SET enable_http_metadata_cache=true ;
     PRAGMA enable_object_cache ;
     set s3_region = 'auto';
     set s3_access_key_id = "{st.secrets["aws_access_key_id_secret"]}" ;
@@ -29,7 +29,7 @@ def define_view():
 con=define_view()
 ###############################
 SQL = st.text_input('Write a SQL Query, Streamlit Cache the results of existing Queries', 'select * from lineitem limit 5')
-@st.experimental_memo (persist="disk")
+@st.experimental_memo (ttl=5*60)
 def get_data(SQL):
   return con.execute(SQL).df()
 try :

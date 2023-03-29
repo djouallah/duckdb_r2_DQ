@@ -22,8 +22,7 @@ def define_view():
     set s3_secret_access_key = '{st.secrets["aws_secret_access_key_secret"] }';
     set s3_endpoint = '{st.secrets["endpoint_url_secret"]}'  ;
     SET s3_url_style='path';
-    create or replace view scada as select * from  parquet_scan('s3://delta/aemo/scada/data/*/*.parquet', HIVE_PARTITIONING=true) ;
-    create  or replace view lineitem as select  *  from parquet_scan('s3://delta/sorted/lineitem.parquet')
+    create or replace view scada as select * from  parquet_scan('s3://aemo/aemo/scada/data/*/*.parquet', HIVE_PARTITIONING=true) ;
     ''')
     return con
 con=define_view()
@@ -40,4 +39,4 @@ try :
   st.write(round(end - start,2))
   st.write(df)
 except Exception as er:
- st.write(er)
+ st.write(df = pd.DataFrame([{'error':er}]))
